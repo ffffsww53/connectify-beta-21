@@ -2,11 +2,16 @@ import os
 from flask import Flask, render_template_string, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 
+import os
+
+# Isso garante que o banco de dados seja criado em um local permitido
+basedir = os.path.abspath(os.path.dirname(__file__))
+db_path = os.path.join("/tmp", "connectify.db") # Caminho temporário para evitar Erro 500
+
 app = Flask(__name__)
-# Em produção, o GitHub pede que segredos fiquem em variáveis de ambiente
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'chave_super_secreta_99')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///connectify.db'
-db = SQLAlchemy(app)
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'chave_mestra_777')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_path
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Senha do ADM (Mude aqui!)
 ADMIN_PASSWORD = "Mudar123" 
